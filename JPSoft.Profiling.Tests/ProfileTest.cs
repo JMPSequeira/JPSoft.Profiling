@@ -5,6 +5,7 @@ namespace Tests
     [TestFixture]
     public class ProfileTest
     {
+        Profile _profile;
         [SetUp]
         public void Setup()
         {
