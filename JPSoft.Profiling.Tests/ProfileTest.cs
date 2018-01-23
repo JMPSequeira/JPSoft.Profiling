@@ -2,11 +2,13 @@ using NUnit.Framework;
 
 namespace Tests
 {
-    public class Tests
+    [TestFixture]
+    public class ProfileTest
     {
         [SetUp]
         public void Setup()
         {
+
         }
 
         [Test]
