@@ -35,11 +35,13 @@ namespace JPSoft.Profiling
 
             var stopTime = DateTime.Now;
 
+            var executionTime = startTime - stopTime;
+
             if (_hasOutput)
                 if (testTask.IsFaulted)
-                    informer.Stop(testTask.Exception.InnerException);
+                    informer.Stop(executionTime, testTask.Exception.InnerException);
                 else
-                    informer.Stop();
+                    informer.Stop(executionTime);
 
             var profile = ProfileCreator.Create(test, testTask, startTime, stopTime);
 
