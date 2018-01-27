@@ -1,9 +1,10 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using JPSoft.Profiling;
 using NUnit.Framework;
 
-namespace Tests
+namespace JPSoft.Profiling.Tests
 {
     [TestFixture]
     public class ProfileTest
@@ -11,7 +12,7 @@ namespace Tests
         Profile _profile;
 
         [SetUp]
-        public void Setup() => _profile = new Profile();
+        public void Setup() => _profile = new Profile(new Test("bola", 1000, () => { }));
 
         [Test]
         public void Miliseconds_DatesSet_ResturnsValidDifference()

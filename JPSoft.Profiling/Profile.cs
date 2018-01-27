@@ -4,8 +4,14 @@ namespace JPSoft.Profiling
 {
     public class Profile
     {
-        public int Id { get; internal set; }
-        public Test Test { get; internal set; }
+        public Profile(Test test)
+        {
+            this.Id = Guid.NewGuid();
+            this.Test = test;
+            this.Iterations = test.Iterations;
+        }
+        public Guid Id { get; }
+        public Test Test { get; }
         public DateTime StartedOn { get; internal set; }
         public DateTime EndedOn { get; internal set; }
         public double Miliseconds
@@ -14,8 +20,7 @@ namespace JPSoft.Profiling
             => Miliseconds / Iterations;
         public double IterationsPerMilisecond
             => Iterations / Miliseconds;
-        public long Iterations { get; internal set; }
-        public string Name { get; internal set; }
+        public long Iterations { get; }
         public Exception Exception { get; internal set; }
         public bool IsSuccessful
             => Exception is null;
