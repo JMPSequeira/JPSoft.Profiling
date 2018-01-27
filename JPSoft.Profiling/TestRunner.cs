@@ -7,7 +7,12 @@ namespace JPSoft.Profiling
 {
     public static class TestRunner
     {
-        static IOutput _output;
+#if DEBUG 
+        static IOutput _output = new DebugOutput();
+#else
+        static IOutput _output = new ConsoleOutput();
+#endif
+        static bool _hasOutput = true;
         static List<Profile> Profiles = new List<Profile>();
         static List<Test> Tests = new List<Test>();
 
@@ -19,20 +24,27 @@ namespace JPSoft.Profiling
 
             var informer = new InformationOutput(_output);
 
-            informer.Start(test.Name);
+            if (_hasOutput)
+                informer.Start(test.Name);
 
             var startTime = DateTime.Now;
 
-            var finished = Task.WhenAny(testTask);
+            testTask.Start();
+
+            while (!testTask.IsCompleted)
+            {
+
+            }
 
             var stopTime = DateTime.Now;
 
-            if (finished.IsFaulted)
-                informer.Stop(finished.Exception.InnerException);
-            else
-                informer.Stop();
+            if (_hasOutput)
+                if (testTask.IsFaulted)
+                    informer.Stop(testTask.Exception.InnerException);
+                else
+                    informer.Stop();
 
-            var profile = ProfileCreator.Create(test, finished, startTime, stopTime);
+            var profile = ProfileCreator.Create(test, testTask, startTime, stopTime);
 
             Profiles.Add(profile);
 

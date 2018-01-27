@@ -12,7 +12,11 @@ namespace JPSoft.Profiling.Tests
         [Test]
         public void Create_NoTimeOut_NormalTask()
         {
-            var test = new Test("Test", 1, () => { var a = 1 + 1; });
+            var test = new Test("Test", 1, () =>
+            {
+                var a = 1 + 1;
+                var b = a + 2;
+            });
 
             var task = TestTaskCreator.Create(test);
 
@@ -28,10 +32,10 @@ namespace JPSoft.Profiling.Tests
         {
             var time = new TimeSpan(0, 0, 0, 0, 500);
 
-            var test = new Test(
-                "Test",
-                1,
-                () => { Thread.Sleep(1000); },
+            var test = new Test("Test", 1, () =>
+                {
+                    Thread.Sleep(1000);
+                },
                 time
             );
 
@@ -44,11 +48,11 @@ namespace JPSoft.Profiling.Tests
         [Test]
         public void Create_WithFaulted_ExceptionExcepion()
         {
-            var test = new Test(
-                "Test",
-                1,
-                () => { var a = 0; var b = 2 / a; }
-            );
+            var test = new Test("Test", 1, () =>
+            {
+                var a = 0;
+                var b = 2 / a;
+            });
 
             var task = TestTaskCreator.Create(test);
 
