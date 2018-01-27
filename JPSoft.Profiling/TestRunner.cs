@@ -13,12 +13,12 @@ namespace JPSoft.Profiling
         static IOutput _output = new ConsoleOutput();
 #endif
         static bool _hasOutput = true;
-        static List<Profile> Profiles = new List<Profile>();
-        static List<Test> Tests = new List<Test>();
+        static List<Profile> _profiles = new List<Profile>();
+        static List<Test> _tests = new List<Test>();
 
         public static Profile Run(Test test)
         {
-            Tests.Add(test);
+            _tests.Add(test);
 
             var testTask = TestTaskCreator.Create(test);
 
@@ -31,10 +31,7 @@ namespace JPSoft.Profiling
 
             testTask.Start();
 
-            while (!testTask.IsCompleted)
-            {
-
-            }
+            while (!testTask.IsCompleted) { }
 
             var stopTime = DateTime.Now;
 
@@ -46,9 +43,16 @@ namespace JPSoft.Profiling
 
             var profile = ProfileCreator.Create(test, testTask, startTime, stopTime);
 
-            Profiles.Add(profile);
+            _profiles.Add(profile);
 
             return profile;
         }
+
+        public static void SetOutput(IOutput output) => _output = output;
+
+        public static void ToggleOutput(bool turnOn) => _hasOutput = turnOn;
+
+        public static IEnumerable<Profile> GetProfiles() => _profiles;
+        public static IEnumerable<Test> GetExecutedTests() => _tests;
     }
 }
