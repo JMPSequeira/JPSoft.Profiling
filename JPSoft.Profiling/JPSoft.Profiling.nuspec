@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>JPSoft.Profiling</id>
+    <version>1.0.0</version>
+    <title>JPSoft.Profiling</title>
+    <authors>João Palma Sequeira</authors>
+    <owners>João Palma Sequeira</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <description>A simple test profiler for .NET Core</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>Test Profiler</tags>
+  </metadata>
+</package>
