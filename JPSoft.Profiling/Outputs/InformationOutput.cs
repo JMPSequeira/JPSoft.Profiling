@@ -12,15 +12,12 @@ namespace JPSoft.Profiling
         const string RUN = "Running...";
 
         const string STOP = "Finished!";
-
         const string COMPLETION = "To Completion";
-
         const string FAILED = "Failed";
-
         const string EXCEPTION_FORMAT = "Exception: {0}\r\nMessage: {1}";
-
         const string START_FORMAT = "Test '{0}' started...";
-        const string END_FORMAT = "ExecutionTime: {1}ms\r\nStatus: {0}";
+        const string END_FORMAT = "Execution Time: {0} ms\r\nStatus: {1}";
+
         public void Start(string name)
         {
             _output.WriteLine(string.Format(START_FORMAT, name));
