@@ -8,8 +8,6 @@ namespace JPSoft.Profiling
         new string Name { get; set; }
         new long Iterations { get; set; }
         new TimeSpan Timeout { get; set; }
-        void AddParameter(object parameter);
-        bool IsOfTypeTest<T>() where T : ITest;
-        object GetAction();
+        void InsertParameter(object parameter);
     }
 }

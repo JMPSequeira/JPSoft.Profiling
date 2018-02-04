@@ -15,7 +15,7 @@ namespace JPSoft.Profiling
             TestRunStatus =
                 result.TestTask.IsFaulted ?
                 TestRunStatus.Faulted :
-                result.TestTask.IsCompleted ?
+                result.TestTask.IsCanceled ?
                 TestRunStatus.Cancelled :
                 TestRunStatus.Successful;
         }

@@ -32,7 +32,7 @@ namespace JPSoft.Profiling
         public bool IsOfTypeTest<T>()
         where T : ITest => this.GetType() == typeof(T);
 
-        public virtual void AddParameter(object parameter) =>
+        public virtual void InsertParameter(object parameter) =>
             throw new InvalidOperationException($"Type {this.GetType()} cannot hold parameters.");
 
         public object GetAction() => Code;

@@ -7,7 +7,7 @@ namespace JPSoft.Profiling
         readonly List<object> _parameters;
         public override byte ParameterCount =>(byte) _parameters.Count;
 
-        public AbstractTestWithParams(TAction code) : base(code) { }
+        public AbstractTestWithParams(TAction code) : base(code) => _parameters = new List<object>();
 
         public override bool TryGetParameters(out IEnumerable<object> parameters)
         {
@@ -16,6 +16,6 @@ namespace JPSoft.Profiling
             return ParameterCount > 0;
         }
 
-        public override void AddParameter(object parameter) => _parameters.Insert(0, parameter);
+        public override void InsertParameter(object parameter) => _parameters.Insert(0, parameter);
     }
 }

@@ -20,9 +20,6 @@ namespace JPSoft.Profiling
 
         public TestTaskRunner(ITestInternal test)
         {
-
-            var process = new Process();
-
             Test = test;
 
             _action = TestActionFactory.Create(Test);
@@ -31,11 +28,14 @@ namespace JPSoft.Profiling
 
             _token = _source.Token;
 
-            _timer = new System.Timers.Timer(Test.Timeout.TotalMilliseconds);
+            if (test.Timeout.TotalMilliseconds > 0)
+            {
+                _timer = new System.Timers.Timer(Test.Timeout.TotalMilliseconds);
 
-            _timer.AutoReset = false;
+                _timer.AutoReset = false;
 
-            _timer.Elapsed += (sender, args) => _source.Cancel();
+                _timer.Elapsed += (sender, args) => _source.Cancel();
+            }
         }
 
         public void Run()
@@ -51,10 +51,8 @@ namespace JPSoft.Profiling
 
         CancellationToken GetCancellationToken()
         {
-            if (_timer.Interval == default)
-                return default;
-
-            _timer.Start();
+            if (_timer != null)
+                _timer.Start();
 
             return _token;
         }

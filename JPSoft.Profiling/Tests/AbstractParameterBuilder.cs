@@ -17,7 +17,7 @@ namespace JPSoft.Profiling
 
         public TReturn WithParameter(TParam parameter)
         {
-            Test.AddParameter(parameter);
+            Test.InsertParameter(parameter);
 
             return _returnee;
         }

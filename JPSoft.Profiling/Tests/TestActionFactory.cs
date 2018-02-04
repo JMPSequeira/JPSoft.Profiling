@@ -13,7 +13,7 @@ namespace JPSoft.Profiling
         static TestActionFactory()
         {
             _actionCreators = typeof(TestActionFactory)
-                .GetMethods(BindingFlags.NonPublic)
+                .GetMethods(BindingFlags.NonPublic | BindingFlags.Static)
                 .Where(m => m.Name == "CreateAction")
                 .ToDictionary(m => m.GetGenericArguments().Length);
         }
@@ -22,38 +22,38 @@ namespace JPSoft.Profiling
 
         static Action CreateActionDinamically(ITestInternal test)
         {
-            if (TryGetTypedActionAndParameters(test, out var typedActionAndParameters))
-            {
-                if (_actionCreators.TryGetValue(typedActionAndParameters.Count(), out var method))
-                {
-                    var genericMethod = method.MakeGenericMethod(typedActionAndParameters.Keys.ToArray());
+            var typedParameters = GetTypedParameters(test);
 
-                    return (Action) genericMethod.Invoke(null, typedActionAndParameters.Values.ToArray());
-                }
+            if (_actionCreators.TryGetValue(typedParameters.Count(), out var method))
+            {
+                if (method.IsGenericMethod)
+                    method = method.MakeGenericMethod(typedParameters.Select(a => a.Type).ToArray());
+
+                var arguments = new List<object>(typedParameters.Select(a => a.Object));
+
+                arguments.Insert(0, test);
+
+                return (Action) method.Invoke(null, arguments.ToArray());
             }
 
             throw new NotImplementedException($"TestFactory cannot create action for {test.GetType().Name}");
         }
 
-        static bool TryGetTypedActionAndParameters(ITestInternal test, out Dictionary<Type, object> typedParameters)
+        static List<(Type Type, object Object)> GetTypedParameters(ITestInternal test)
         {
-            typedParameters = new Dictionary<Type, object>();
+            var typedParameters = new List<(Type, object)>();
 
             if (test.TryGetParameters(out var parameters))
             {
-                var code = test.GetAction();
-
-                typedParameters.Add(code.GetType(), code);
-
                 foreach (var parameter in parameters)
                 {
                     var type = parameter.GetType();
 
-                    typedParameters.Add(type, parameter);
+                    typedParameters.Add((type, parameter));
                 }
             }
 
-            return typedParameters.Any();
+            return typedParameters;
         }
 
         static Action CreateAction(AbstractTest<Action> test)

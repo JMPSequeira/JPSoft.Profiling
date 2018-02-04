@@ -39,11 +39,11 @@ namespace JPSoft.Profiling
         public static IEnumerable<Profile> GetProfiles() => _profiles;
         public static IEnumerable<ITest> GetTests() => _tests;
 
-        public static ITest BuildTest(Expression<Func<ITestBuilder, ITestOptions>> buildingOptions)
+        public static ITest BuildTest(Func<ITestBuilder, ITestOptions> buildingOptions)
         {
             var builder = new TestBuilder();
 
-            buildingOptions.Compile() (builder);
+            buildingOptions(builder);
 
             var test = builder.Test;
 
