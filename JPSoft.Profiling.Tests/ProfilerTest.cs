@@ -2,6 +2,7 @@ using System;
 using JPSoft.Profiling;
 using NUnit.Framework;
 using System.Threading;
+using System.Threading.Tasks;
 
 public partial class TestActionFactoryTest
 {
@@ -38,7 +39,7 @@ public partial class TestActionFactoryTest
 
             var profile = Profiler.Run(test);
 
-            Assert.IsTrue(profile.TestRunStatus == TestRunStatus.Cancelled);
+            Assert.IsTrue(profile.TaskRunStatus == TaskStatus.Canceled);
         }
 
         [Test]
@@ -54,7 +55,7 @@ public partial class TestActionFactoryTest
 
             var profile = Profiler.Run(test);
 
-            Assert.IsTrue(profile.TestRunStatus == TestRunStatus.Faulted);
+            Assert.IsTrue(profile.TaskRunStatus == TaskStatus.Faulted);
         }
 
         static ITest GetTest()
