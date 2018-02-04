@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace JPSoft.Profiling
 {
@@ -12,13 +13,9 @@ namespace JPSoft.Profiling
             StartedOn = result.StartTime;
             EndedOn = result.EndTime;
             Exception = result.Exception;
-            TestRunStatus =
-                result.TestTask.IsFaulted ?
-                TestRunStatus.Faulted :
-                result.TestTask.IsCanceled ?
-                TestRunStatus.Cancelled :
-                TestRunStatus.Successful;
+            TaskRunStatus = result.TestTask.Status;
         }
+
         public Guid Guid { get; }
         public ITest Test { get; }
         public DateTime StartedOn { get; }
@@ -31,14 +28,7 @@ namespace JPSoft.Profiling
             => Iterations / Miliseconds;
         public long Iterations { get; }
         public Exception Exception { get; }
-        public bool IsSuccessful => TestRunStatus == TestRunStatus.Successful;
-        public TestRunStatus TestRunStatus { get; }
-    }
-
-    public enum TestRunStatus
-    {
-        Cancelled,
-        Successful,
-        Faulted
+        public bool IsSuccess => TaskRunStatus == TaskStatus.RanToCompletion;
+        public TaskStatus TaskRunStatus { get; }
     }
 }
