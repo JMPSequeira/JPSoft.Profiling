@@ -4,16 +4,25 @@ namespace JPSoft.Profiling
 {
     public class Profile
     {
-        public Profile(Test test)
+        internal Profile(ITestTaskRunner result)
         {
-            this.Id = Guid.NewGuid();
-            this.Test = test;
-            this.Iterations = test.Iterations;
+            Guid = Guid.NewGuid();
+            Test = result.Test;
+            Iterations = Test.Iterations;
+            StartedOn = result.StartTime;
+            EndedOn = result.EndTime;
+            Exception = result.Exception;
+            TestRunStatus =
+                result.TestTask.IsFaulted ?
+                TestRunStatus.Faulted :
+                result.TestTask.IsCompleted ?
+                TestRunStatus.Cancelled :
+                TestRunStatus.Successful;
         }
-        public Guid Id { get; }
-        public Test Test { get; }
-        public DateTime StartedOn { get; internal set; }
-        public DateTime EndedOn { get; internal set; }
+        public Guid Guid { get; }
+        public ITest Test { get; }
+        public DateTime StartedOn { get; }
+        public DateTime EndedOn { get; }
         public double Miliseconds
             =>(EndedOn - StartedOn).TotalMilliseconds;
         public double MilisecondsPerIteration
@@ -21,8 +30,15 @@ namespace JPSoft.Profiling
         public double IterationsPerMilisecond
             => Iterations / Miliseconds;
         public long Iterations { get; }
-        public Exception Exception { get; internal set; }
-        public bool IsSuccessful
-            => Exception is null;
+        public Exception Exception { get; }
+        public bool IsSuccessful => TestRunStatus == TestRunStatus.Successful;
+        public TestRunStatus TestRunStatus { get; }
+    }
+
+    public enum TestRunStatus
+    {
+        Cancelled,
+        Successful,
+        Faulted
     }
 }
