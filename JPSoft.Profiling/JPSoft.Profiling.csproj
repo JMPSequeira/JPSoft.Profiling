@@ -10,7 +10,10 @@
     <AssemblyVersion>2.0.1.0</AssemblyVersion>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <NeutralLanguage>en</NeutralLanguage>
+    <PackageTags>Test Profile</PackageTags>
+    <PackageReleaseNotes>Added BuildAndRun</PackageReleaseNotes>
     <Copyright>Copyright © 2018 João Palma Sequeira</Copyright>
+
   </PropertyGroup>
 
 </Project>
