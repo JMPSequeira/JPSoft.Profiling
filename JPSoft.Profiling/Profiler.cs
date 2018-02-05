@@ -11,16 +11,27 @@ namespace JPSoft.Profiling
         static List<Profile> _profiles = new List<Profile>();
         static List<ITestInternal> _tests = new List<ITestInternal>();
 
-        public static Profile Run(ITest test)
-        {
-            var internalTest = ValidateTest(test);
+        public static IEnumerable<Profile> GetProfiles() => _profiles;
+        public static IEnumerable<ITest> GetTests() => _tests;
 
+        public static ITest BuildTest(Func<ITestBuilder, ITestOptions> buildingOptions) => BuildInternal(buildingOptions);
+
+        public static Profile Run(ITest test) => Run(ValidateTest(test));
+
+        public static Profile BuildAndRunTest(Func<ITestBuilder, ITestOptions> buildingOptions) => Run(BuildInternal(buildingOptions));
+
+        public static void SetOutput(IOutput output) => _output = output;
+
+        static ITestInternal ValidateTest(ITest test) => test is ITestInternal internalTest ? internalTest : throw new ArgumentException($"ITest {test.Name} is not a valid test.");
+
+        static Profile Run(ITestInternal internalTest)
+        {
             var runner = new TestTaskRunner(internalTest);
 
             var informer = new InformationOutput(_output);
 
             if (_hasOutput)
-                informer.Start(test.Name);
+                informer.Start(internalTest.Name);
 
             runner.Run();
 
@@ -34,12 +45,7 @@ namespace JPSoft.Profiling
             return profile;
         }
 
-        public static void SetOutput(IOutput output) => _output = output;
-
-        public static IEnumerable<Profile> GetProfiles() => _profiles;
-        public static IEnumerable<ITest> GetTests() => _tests;
-
-        public static ITest BuildTest(Func<ITestBuilder, ITestOptions> buildingOptions)
+        static ITestInternal BuildInternal(Func<ITestBuilder, ITestOptions> buildingOptions)
         {
             var builder = new TestBuilder();
 
@@ -50,14 +56,6 @@ namespace JPSoft.Profiling
             _tests.Add(test);
 
             return test;
-        }
-
-        static ITestInternal ValidateTest(ITest test)
-        {
-            if (test is ITestInternal internalTest)
-                return internalTest;
-
-            throw new ArgumentException($"ITest {test.Name} is not a valid test.");
         }
     }
 }
