@@ -23,9 +23,9 @@ namespace JPSoft.Profiling
             return this;
         }
 
-        public ITestOptions WithTimeout(TimeSpan time)
+        public ITestOptions WithTimeout(int miliseconds)
         {
-            Test.Timeout = time;
+            Test.Timeout = new TimeSpan(0, 0, 0, 0, miliseconds);
 
             return this;
         }

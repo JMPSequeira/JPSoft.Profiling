@@ -4,7 +4,7 @@ namespace JPSoft.Profiling
 {
     public interface ITestOptions
     {
-        ITestOptions WithTimeout(TimeSpan time);
+        ITestOptions WithTimeout(int miliseconds);
         ITestOptions WithName(string name);
         ITestOptions WithIterations(long iterations);
     }

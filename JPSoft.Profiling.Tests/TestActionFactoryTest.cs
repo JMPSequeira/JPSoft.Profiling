@@ -1,6 +1,7 @@
 using System;
 using JPSoft.Profiling;
 using NUnit.Framework;
+using System.Threading;
 
 [TestFixture]
 public partial class TestActionFactoryTest
@@ -12,7 +13,7 @@ public partial class TestActionFactoryTest
 
         var action = TestActionFactory.Create(test);
 
-        Assert.IsInstanceOf(typeof(Action), action);
+        Assert.IsInstanceOf(typeof(Action<CancellationToken>), action);
     }
 
     [Test]
@@ -28,6 +29,6 @@ public partial class TestActionFactoryTest
 
         var action = TestActionFactory.Create(test);
 
-        Assert.IsInstanceOf(typeof(Action), action);
+        Assert.IsInstanceOf(typeof(Action<CancellationToken>), action);
     }
 }

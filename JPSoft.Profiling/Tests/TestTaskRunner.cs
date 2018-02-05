@@ -7,9 +7,9 @@ namespace JPSoft.Profiling
 {
     class TestTaskRunner : ITestTaskRunner
     {
-        readonly Action _action;
+        readonly Action<CancellationToken> _action;
         readonly CancellationTokenSource _source;
-        readonly CancellationToken _token;
+        readonly CancellationToken _token = CancellationToken.None;
         readonly System.Timers.Timer _timer;
         public Task TestTask { get; private set; }
         public ITestInternal Test { get; }
@@ -26,10 +26,10 @@ namespace JPSoft.Profiling
 
             _source = new CancellationTokenSource();
 
-            _token = _source.Token;
-
             if (test.Timeout.TotalMilliseconds > 0)
             {
+                _token = _source.Token;
+
                 _timer = new System.Timers.Timer(Test.Timeout.TotalMilliseconds);
 
                 _timer.AutoReset = false;
@@ -42,14 +42,14 @@ namespace JPSoft.Profiling
         {
             StartTime = DateTime.Now;
 
-            TestTask = Task.Run(_action, GetCancellationToken());
+            TestTask = Task.Run(() => _action(StartTimerAndGetCancellationToken()), _token);
 
             Task.WaitAny(TestTask);
 
             EndTime = DateTime.Now;
         }
 
-        CancellationToken GetCancellationToken()
+        CancellationToken StartTimerAndGetCancellationToken()
         {
             if (_timer != null)
                 _timer.Start();

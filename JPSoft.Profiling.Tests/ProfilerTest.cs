@@ -31,11 +31,11 @@ public partial class TestActionFactoryTest
         [Test]
         public void Run_ExceedTimeout_CanceledStatus()
         {
-            var test = new Test(() => Thread.Sleep(1));
+            var test = new Test(() => { var a = 2 + 5; });
 
-            test.Iterations = 100;
+            test.Iterations = 10000000000;
 
-            test.Timeout = new TimeSpan(0, 0, 0, 0, 10);
+            test.Timeout = new TimeSpan(0, 0, 0, 1);
 
             var profile = Profiler.Run(test);
 
