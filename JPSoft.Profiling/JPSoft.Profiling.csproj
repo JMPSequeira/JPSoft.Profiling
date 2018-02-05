@@ -3,6 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
+    <Version>2.0.1.0</Version>
+    <Authors>João Palma Sequeira</Authors>
+    <PackageId>JPSoft.Profiling</PackageId>
+    <Description>A small profiling API</Description>
+    <AssemblyVersion>2.0.1.0</AssemblyVersion>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Copyright>Copyright © 2018 João Palma Sequeira</Copyright>
   </PropertyGroup>
 
 </Project>
