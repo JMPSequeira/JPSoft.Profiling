@@ -31,7 +31,7 @@ public partial class TestActionFactoryTest
         [Test]
         public void Run_ExceedTimeout_CanceledStatus()
         {
-            var test = new Test(() => { var a = 2 + 5; });
+            var test = new Test(() => { var a = 2 + 5; var b = a + 5; });
 
             test.Iterations = 10000000000;
 
