@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace JPSoft.Profiling
 {
@@ -10,7 +11,6 @@ namespace JPSoft.Profiling
         static bool _hasOutput = _output != null;
         static List<Profile> _profiles = new List<Profile>();
         static List<ITestInternal> _tests = new List<ITestInternal>();
-
         public static IEnumerable<Profile> GetProfiles() => _profiles;
         public static IEnumerable<ITest> GetTests() => _tests;
 
@@ -18,7 +18,15 @@ namespace JPSoft.Profiling
 
         public static Profile Run(ITest test) => Run(ValidateTest(test));
 
+        public static IEnumerable<Profile> RunMultiple(ITest test, int times, bool stopOnException = false)
+        {
+            var internalTest = ValidateTest(test);
+
+            return RunMultiple(internalTest, times, stopOnException);
+        }
+
         public static Profile BuildAndRunTest(Func<ITestBuilder, ITestOptions> buildingOptions) => Run(BuildInternal(buildingOptions));
+        public static IEnumerable<Profile> BuildAndRunTestMultiple(Func<ITestBuilder, ITestOptions> buildingOptions, int times, bool stopOnException) => RunMultiple(BuildInternal(buildingOptions), times, stopOnException);
 
         public static void SetOutput(IOutput output) => _output = output;
 
@@ -43,6 +51,25 @@ namespace JPSoft.Profiling
             _profiles.Add(profile);
 
             return profile;
+        }
+
+        static IEnumerable<Profile> RunMultiple(ITestInternal test, int times, bool stopOnException = false)
+        {
+            int i = 0;
+
+            var profiles = new List<Profile>(times);
+
+            for (; i < times; i++)
+            {
+                var profile = Run(test);
+
+                profiles.Add(profile);
+
+                if (stopOnException && profile.TaskRunStatus == TaskStatus.Faulted)
+                    break;
+            }
+
+            return profiles;
         }
 
         static ITestInternal BuildInternal(Func<ITestBuilder, ITestOptions> buildingOptions)
