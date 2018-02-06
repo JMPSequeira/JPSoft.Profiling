@@ -36,7 +36,7 @@ namespace JPSoft.Profiling
             runner.Run();
 
             if (_hasOutput)
-                informer.Stop(runner.EndTime - runner.StartTime, runner.Exception);
+                informer.Stop(runner.RunTime, runner.Exception);
 
             var profile = new Profile(runner);
 
@@ -47,11 +47,7 @@ namespace JPSoft.Profiling
 
         static ITestInternal BuildInternal(Func<ITestBuilder, ITestOptions> buildingOptions)
         {
-            var builder = new TestBuilder();
-
-            buildingOptions(builder);
-
-            var test = builder.Test;
+            var test = new TestBuilder(buildingOptions).Test;
 
             _tests.Add(test);
 

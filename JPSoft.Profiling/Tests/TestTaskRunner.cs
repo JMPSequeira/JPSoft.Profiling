@@ -15,8 +15,9 @@ namespace JPSoft.Profiling
         public ITestInternal Test { get; }
         public DateTime StartTime { get; private set; }
         public DateTime EndTime { get; private set; }
-
         public Exception Exception => TestTask.Exception?.InnerException;
+
+        public double RunTime { get; private set; }
 
         public TestTaskRunner(ITestInternal test)
         {
@@ -26,11 +27,11 @@ namespace JPSoft.Profiling
 
             _source = new CancellationTokenSource();
 
-            if (test.Timeout.TotalMilliseconds > 0)
+            if (Test.Timeout > 0)
             {
                 _token = _source.Token;
 
-                _timer = new System.Timers.Timer(Test.Timeout.TotalMilliseconds);
+                _timer = new System.Timers.Timer(Test.Timeout);
 
                 _timer.AutoReset = false;
 
@@ -40,13 +41,21 @@ namespace JPSoft.Profiling
 
         public void Run()
         {
+            var stopwatch = new Stopwatch();
+
             StartTime = DateTime.Now;
+
+            stopwatch.Start();
 
             TestTask = Task.Run(() => _action(StartTimerAndGetCancellationToken()), _token);
 
             Task.WaitAny(TestTask);
 
-            EndTime = DateTime.Now;
+            stopwatch.Stop();
+
+            RunTime = stopwatch.ElapsedMilliseconds;
+
+            EndTime = StartTime.AddMilliseconds(RunTime);
         }
 
         CancellationToken StartTimerAndGetCancellationToken()

@@ -35,7 +35,7 @@ public partial class TestActionFactoryTest
 
             test.Iterations = 10000000000;
 
-            test.Timeout = new TimeSpan(0, 0, 0, 1);
+            test.Timeout = 100;
 
             var profile = Profiler.Run(test);
 

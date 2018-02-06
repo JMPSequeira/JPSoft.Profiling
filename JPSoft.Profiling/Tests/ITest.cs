@@ -8,7 +8,7 @@ namespace JPSoft.Profiling
         Guid Guid { get; }
         string Name { get; }
         long Iterations { get; }
-        TimeSpan Timeout { get; }
+        double Timeout { get; }
         byte ParameterCount { get; }
         bool TryGetParameters(out IEnumerable<object> parameters);
     }

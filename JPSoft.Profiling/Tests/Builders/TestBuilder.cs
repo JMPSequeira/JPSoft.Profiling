@@ -25,6 +25,8 @@ namespace JPSoft.Profiling
     {
         public ITestInternal Test { get; private set; }
 
+        public TestBuilder(Func<ITestBuilder, ITestOptions> instructions) => instructions(this);
+
         TReturn GetTestHolder<TReturn, TTest, TAction>(TAction action)
         where TTest : AbstractTest<TAction>
             where TReturn : class

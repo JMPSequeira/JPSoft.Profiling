@@ -23,7 +23,7 @@ namespace JPSoft.Profiling
             _output.WriteLine(string.Format(START_FORMAT, name));
             _output.WriteLine(RUN);
         }
-        public void Stop(TimeSpan time, Exception exception = null)
+        public void Stop(double milliseconds, Exception exception = null)
         {
             _output.WriteLine(STOP);
 
@@ -35,7 +35,7 @@ namespace JPSoft.Profiling
                 endWith += $"{FAILED}\r\n" +
                 $"{string.Format(EXCEPTION_FORMAT, exception.GetType().Name, exception.Message)}";
 
-            _output.WriteLine(string.Format(END_FORMAT, time.Milliseconds, endWith));
+            _output.WriteLine(string.Format(END_FORMAT, milliseconds, endWith));
         }
 
     }

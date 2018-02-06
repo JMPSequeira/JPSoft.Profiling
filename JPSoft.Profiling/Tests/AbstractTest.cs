@@ -18,7 +18,7 @@ namespace JPSoft.Profiling
         }
         public virtual byte ParameterCount { get; } = 0;
         public long Iterations { get; set; } = 1000000;
-        public TimeSpan Timeout { get; set; }
+        public double Timeout { get; set; }
 
         public AbstractTest(TAction code) { Guid = Guid.NewGuid(); Code = code; }
 
