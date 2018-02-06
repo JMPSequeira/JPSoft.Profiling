@@ -11,7 +11,7 @@ var test = Profiler.BuildTest(Profiler.BuildTest((builder) =>
         .WithParameter(2)
         .WithParameter(9)
         .WithIterations(100)
-        .WithName("Test"));)
+        .WithName("Test")));
 
 var profile = Profiler.Run(test);
 ```
@@ -22,13 +22,13 @@ var profile = Profiler.BuildAndRunTest(Profiler.BuildTest<int,int>((builder) =>
         builder.For<int,int>((a,b) => var c = a + b)
         .WithParameter(2).WithParameter(9)
         .WithIterations(100)
-        .WithName("Test"));)
+        .WithName("Test")));
 ```
 
 You can add a timeout condition:
 ```
 (builder) => builder.For(() => Console.Write('Hello world'))
-    .WithTimeout(10000);
+    .WithTimeout(10000)));
 ```
 
 And then reap consult the generated profile;
