@@ -3,20 +3,21 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <Version>3.0.0.0</Version>
     <Authors>João Palma Sequeira</Authors>
     <PackageId>JPSoft.Profiling</PackageId>
     <Description>A small profiling API</Description>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Version>3.0.0.0</Version>
     <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-    <NeutralLanguage>en</NeutralLanguage>
-    <PackageTags>Test Profile</PackageTags>
+    <PackageProjectUrl>https://github.com/JMPSequeira/JPSoft.Profiling</PackageProjectUrl>
     <PackageReleaseNotes>
 Added README.MD 
 Reorganized file structure
 Replace Timespans with doubles
 Changed time measurment from DateTime to double and Stopwatch
   </PackageReleaseNotes>
+    <PackageTags>Test Profile</PackageTags>
     <Copyright>Copyright © 2018 João Palma Sequeira</Copyright>
 
   </PropertyGroup>
