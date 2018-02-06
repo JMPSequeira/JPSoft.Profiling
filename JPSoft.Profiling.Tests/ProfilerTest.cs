@@ -1,6 +1,7 @@
 using System;
 using JPSoft.Profiling;
 using NUnit.Framework;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -58,6 +59,31 @@ public partial class TestActionFactoryTest
             Assert.IsTrue(profile.TaskRunStatus == TaskStatus.Faulted);
         }
 
+        [Test]
+        public void RunMultiple_ValidAction_MultipleProfiles()
+        {
+            var test = GetTest();
+
+            var profiles = Profiler.RunMultiple(test, 2);
+
+            Assert.IsTrue(profiles.Count() == 2);
+        }
+
+        [Test]
+        public void RunMultiple_InvalidActionAndStopOnException_MultipleProfiles()
+        {
+            var test = new Test(() =>
+            {
+                var a = 0;
+                var b = 1 / a;
+            });
+
+            test.Iterations = 100;
+
+            var profiles = Profiler.RunMultiple(test, 2, true);
+
+            Assert.IsTrue(profiles.Count() == 1);
+        }
         static ITest GetTest()
         {
             Action<int, int> action = (i, j) => { var a = i + j; };

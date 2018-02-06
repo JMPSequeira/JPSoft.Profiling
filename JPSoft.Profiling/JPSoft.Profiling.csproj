@@ -12,10 +12,7 @@
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/JMPSequeira/JPSoft.Profiling</PackageProjectUrl>
     <PackageReleaseNotes>
-Added README.MD 
-Reorganized file structure
-Replace Timespans with doubles
-Changed time measurment from DateTime to double and Stopwatch
+        Added methods to run multiple times
   </PackageReleaseNotes>
     <PackageTags>Test Profile</PackageTags>
     <Copyright>Copyright © 2018 João Palma Sequeira</Copyright>
