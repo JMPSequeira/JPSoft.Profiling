@@ -2,6 +2,12 @@
 
 A small profiling API.
 
+## Information 
+
+This package is no longer maintained.
+
+I've developed another project to the same end: [JPSoft.Benchmarker](https://www.nuget.org/packages/JPSoft.Benchmarker/) 
+
 ## Getting Started
 
 Simply do:
