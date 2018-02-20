@@ -6,7 +6,7 @@ A small profiling API.
 
 This package is no longer maintained.
 
-I've developed another project to the same end: [JPSoft.Benchmarker](https://www.nuget.org/packages/JPSoft.Benchmarker/) 
+I've developed another project to the same end: [JPSoft.Benchmarker](https://github.com/JMPSequeira/JPSoft.Benchmarker) 
 
 ## Getting Started
 
